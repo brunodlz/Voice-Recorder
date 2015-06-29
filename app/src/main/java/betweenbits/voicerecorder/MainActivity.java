@@ -7,7 +7,6 @@ import android.os.Build;
 import android.os.Environment;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
 
@@ -15,7 +14,6 @@ import java.io.IOException;
 
 public class MainActivity extends ActionBarActivity {
 
-    private Toolbar myToolbar;
     private Button btnPlay;
     private Button btnStop;
     private Button btnRecord;
@@ -68,7 +66,21 @@ public class MainActivity extends ActionBarActivity {
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setDataSource(filePath);
         mediaPlayer.prepare();
+        mediaPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                mediaCompleted();
+            }
+
+        });
         mediaPlayer.start();
+    }
+
+    private void mediaCompleted(){
+        btnPlay.setEnabled(true);
+        btnStop.setEnabled(false);
+        btnRecord.setEnabled(true);
     }
 
     public void stop(View view) {
