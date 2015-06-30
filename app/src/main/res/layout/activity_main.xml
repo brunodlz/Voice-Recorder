@@ -20,12 +20,14 @@
         android:id="@+id/linearLayout"
         android:gravity="center">
 
-        <Button
-            android:id="@+id/btnRecord"
+        <ImageButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/record"
+            android:id="@+id/btnRecord"
+            android:src="@drawable/mic"
+            android:background="@null"
             android:onClick="record" />
+
     </LinearLayout>
 
     <LinearLayout
@@ -35,30 +37,32 @@
         android:layout_alignParentBottom="true"
         >
 
-        <Button
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:id="@+id/btnPlay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/play"
-            android:onClick="play"
-            android:layout_weight="1" />
+            android:src="@drawable/play"
+            android:layout_weight="1"
+            android:background="@null"
+            android:alpha="0.5"
+            android:onClick="play" />
 
-        <Button
-            android:id="@+id/btnStop"
+        <ImageButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/stop"
-            android:onClick="stop"
-            android:layout_weight="1" />
+            android:id="@+id/btnStop"
+            android:src="@drawable/pause"
+            android:layout_weight="1"
+            android:background="@null"
+            android:alpha="0.5"
+            android:onClick="stop"/>
 
     </LinearLayout>
 
-    <TextView
+    <Chronometer
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView"
+        android:id="@+id/chronometer"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
 

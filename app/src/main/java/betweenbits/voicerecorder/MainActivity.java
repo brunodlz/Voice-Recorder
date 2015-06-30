@@ -1,22 +1,34 @@
 package betweenbits.voicerecorder;
 
 import android.content.pm.PackageManager;
+
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+
+import java.util.concurrent.TimeUnit;
+
 import android.os.Build;
 import android.os.Environment;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.os.CountDownTimer;
+
+import android.os.SystemClock;
+import android.support.v7.app.ActionBarActivity;
+
 import android.view.View;
-import android.widget.Button;
+import android.widget.Chronometer;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.TextView;
 
 import java.io.IOException;
 
 public class MainActivity extends ActionBarActivity {
 
-    private Button btnPlay;
-    private Button btnStop;
-    private Button btnRecord;
+    private Chronometer chronometer;
+    private ImageButton btnPlay;
+    private ImageButton btnStop;
+    private ImageButton btnRecord;
 
     private boolean isRecording = false;
     private static String filePath;
@@ -48,9 +60,11 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void initializeViews() {
-        btnPlay   = (Button) findViewById(R.id.btnPlay);
-        btnStop   = (Button) findViewById(R.id.btnStop);
-        btnRecord = (Button) findViewById(R.id.btnRecord);
+        chronometer = (Chronometer) findViewById(R.id.chronometer);
+
+        btnPlay   = (ImageButton) findViewById(R.id.btnPlay);
+        btnStop   = (ImageButton) findViewById(R.id.btnStop);
+        btnRecord = (ImageButton) findViewById(R.id.btnRecord);
     }
 
     protected boolean hasMicrophone() {
@@ -86,9 +100,11 @@ public class MainActivity extends ActionBarActivity {
     public void stop(View view) {
         btnStop.setEnabled(false);
         btnPlay.setEnabled(true);
+        btnPlay.setAlpha((float)1.0);
 
         if (isRecording) {
             btnRecord.setEnabled(false);
+            chronometer.stop();
             mediaRecorder.stop();
             mediaRecorder.release();
             mediaRecorder = null;
@@ -104,8 +120,14 @@ public class MainActivity extends ActionBarActivity {
         isRecording = true;
 
         btnPlay.setEnabled(false);
+        btnPlay.setAlpha((float) 0.5);
+
         btnStop.setEnabled(true);
+        btnStop.setAlpha((float)1.0);
+
         btnRecord.setEnabled(false);
+
+        chronometer.setBase(SystemClock.elapsedRealtime());
 
         try {
             mediaRecorder = new MediaRecorder();
@@ -117,6 +139,7 @@ public class MainActivity extends ActionBarActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        chronometer.start();
         mediaRecorder.start();
     }
 }
