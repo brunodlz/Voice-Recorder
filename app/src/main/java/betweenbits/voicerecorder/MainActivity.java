@@ -56,7 +56,7 @@ public class MainActivity extends ActionBarActivity {
             btnStop.setEnabled(true);
         }
 
-        filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/myaudio.3gp";
+        filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MySound.3gp";
     }
 
     private void initializeViews() {
