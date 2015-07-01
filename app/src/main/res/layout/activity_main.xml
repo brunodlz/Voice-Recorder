@@ -9,47 +9,33 @@
     tools:context=".MainActivity">
 
     <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="62dp"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
-        android:id="@+id/linearLayout"
-        android:gravity="center">
-
-        <ImageButton
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/btnRecord"
-            android:src="@drawable/mic"
-            android:background="@null"
-            android:onClick="record" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        >
+        android:layout_height="100dp" >
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/btnPlay"
             android:src="@drawable/play"
             android:layout_weight="1"
             android:background="@null"
             android:alpha="0.5"
-            android:onClick="play" />
+            android:onClick="play"
+            />
 
         <ImageButton
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:id="@+id/btnRecord"
+            android:src="@drawable/mic"
+            android:layout_weight="1"
+            android:background="@null"
+            android:onClick="record" />
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
             android:id="@+id/btnStop"
             android:src="@drawable/pause"
             android:layout_weight="1"
@@ -65,5 +51,13 @@
         android:id="@+id/chronometer"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/textView"
+        android:textStyle="bold"
+        android:layout_above="@+id/chronometer"
+        android:gravity="center"/>
 
 </RelativeLayout>

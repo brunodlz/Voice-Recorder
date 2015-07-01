@@ -5,19 +5,15 @@ import android.content.pm.PackageManager;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 
-import java.util.concurrent.TimeUnit;
-
 import android.os.Build;
 import android.os.Environment;
 import android.os.Bundle;
-import android.os.CountDownTimer;
 
 import android.os.SystemClock;
 import android.support.v7.app.ActionBarActivity;
 
 import android.view.View;
 import android.widget.Chronometer;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
@@ -29,6 +25,7 @@ public class MainActivity extends ActionBarActivity {
     private ImageButton btnPlay;
     private ImageButton btnStop;
     private ImageButton btnRecord;
+    private TextView textType;
 
     private boolean isRecording = false;
     private static String filePath;
@@ -56,7 +53,7 @@ public class MainActivity extends ActionBarActivity {
             btnStop.setEnabled(true);
         }
 
-        filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MySound.3gp";
+        filePath = Environment.getExternalStorageDirectory().getAbsolutePath() + "/MySound.mp3";
     }
 
     private void initializeViews() {
@@ -65,6 +62,8 @@ public class MainActivity extends ActionBarActivity {
         btnPlay   = (ImageButton) findViewById(R.id.btnPlay);
         btnStop   = (ImageButton) findViewById(R.id.btnStop);
         btnRecord = (ImageButton) findViewById(R.id.btnRecord);
+
+        textType = (TextView) findViewById(R.id.textView);
     }
 
     protected boolean hasMicrophone() {
@@ -74,8 +73,12 @@ public class MainActivity extends ActionBarActivity {
 
     public void play(View view) throws IOException {
         btnPlay.setEnabled(false);
+        btnPlay.setAlpha((float) 0.2);
+
         btnStop.setEnabled(true);
+
         btnRecord.setEnabled(false);
+        btnRecord.setAlpha((float) 0.2);
 
         mediaPlayer = new MediaPlayer();
         mediaPlayer.setDataSource(filePath);
@@ -88,46 +91,61 @@ public class MainActivity extends ActionBarActivity {
             }
 
         });
+        initPlay();
+        startChronometer();
         mediaPlayer.start();
     }
 
     private void mediaCompleted(){
+        stopRecordOrPlay();
+
         btnPlay.setEnabled(true);
+        btnPlay.setAlpha((float) 1.0);
+
         btnStop.setEnabled(false);
+        btnStop.setAlpha((float) 0.2);
+
         btnRecord.setEnabled(true);
+        btnRecord.setAlpha((float) 1.0);
+
+        chronometer.stop();
     }
 
     public void stop(View view) {
         btnStop.setEnabled(false);
         btnPlay.setEnabled(true);
-        btnPlay.setAlpha((float)1.0);
+        btnPlay.setAlpha((float) 1.0);
 
         if (isRecording) {
             btnRecord.setEnabled(false);
-            chronometer.stop();
+            btnRecord.setAlpha((float) 0.2);
+
             mediaRecorder.stop();
             mediaRecorder.release();
             mediaRecorder = null;
             isRecording = false;
         } else {
+            btnRecord.setEnabled(true);
+            btnRecord.setAlpha((float) 1.0);
+
             mediaPlayer.release();
             mediaPlayer = null;
             btnRecord.setEnabled(true);
         }
+        chronometer.stop();
+        stopRecordOrPlay();
     }
 
     public void record(View view) throws IOException {
         isRecording = true;
 
         btnPlay.setEnabled(false);
-        btnPlay.setAlpha((float) 0.5);
+        btnPlay.setAlpha((float) 0.2);
 
         btnStop.setEnabled(true);
-        btnStop.setAlpha((float)1.0);
+        btnStop.setAlpha((float) 1.0);
 
         btnRecord.setEnabled(false);
-
-        chronometer.setBase(SystemClock.elapsedRealtime());
 
         try {
             mediaRecorder = new MediaRecorder();
@@ -139,7 +157,27 @@ public class MainActivity extends ActionBarActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        chronometer.start();
+        initRecord();
+        startChronometer();
         mediaRecorder.start();
+    }
+
+    private void startChronometer() {
+        chronometer.setBase(SystemClock.elapsedRealtime());
+        chronometer.start();
+    }
+
+    private void initRecord() {
+        textType.setText(R.string.record);
+        textType.setTextColor(getResources().getColor(R.color.colorRed));
+    }
+
+    private void initPlay() {
+        textType.setText(R.string.play);
+        textType.setTextColor(getResources().getColor(R.color.colorBlue));
+    }
+
+    private void stopRecordOrPlay() {
+        textType.setText(" ");
     }
 }
